@@ -1,0 +1,466 @@
+/* Reset básico e tema escuro */
+:root {
+    --bg-color: #18191b;
+    --bg-card: #121213;
+    --bg-color-light: #2a2b2e;
+    --bg-color-lighter: #393b3f;
+    --text-color: #e0e2e6;
+    --text-color-light: #d5d7dd;
+    --border-color: #4a4f5a;
+    --accent-color: #61afef;
+    --selected-bg: #4b5263;
+    --selected-border: var(--accent-color);
+    --hover-bg: #3e4451;
+    --icon-color: #98c379;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Evita scroll no body principal */
+}
+
+/* Layout Geral */
+.editor-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar-left,
+.sidebar-right {
+    width: 250px;
+    background-color: var(--bg-card);
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.sidebar-right {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+.sidebar-right .settingDiv {
+    padding: 10px;
+    background: #000;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.sidebar-right .settingDiv label {
+    color: var(--text-color-light);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    overflow: hidden; /* Evita scroll duplo */
+}
+
+/* Cabeçalhos e Ícones */
+h2 {
+    color: var(--text-color-light);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaço entre ícone e texto */
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+h2 .material-icons {
+    font-size: 1.3em; /* Tamanho do ícone */
+    color: var(--icon-color);
+}
+
+/* Lista de Tags */
+#tag-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+#tag-list li {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background-color: var(--bg-color-lighter);
+    border-radius: 4px;
+    cursor: grab;
+    transition: background-color 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+#tag-list li:hover {
+    background-color: var(--hover-bg);
+}
+
+#tag-list li.dragging {
+    opacity: 0.5;
+}
+
+/* Árvore DOM */
+.dom-tree-view {
+    margin-top: 20px;
+    flex-grow: 1; /* Ocupa espaço restante */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    padding: 8px;
+}
+
+#dom-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* Scroll interno se necessário */
+    flex-grow: 1;
+}
+
+#dom-tree li {
+    padding: 4px 0;
+    margin: 4px 0;
+    cursor: grab;
+    position: relative;
+    transition: all 0.2s ease;
+    border-radius: 3px;
+}
+
+#dom-tree li > span {
+    padding: 4px 6px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 3px;
+    background-color: var(--bg-color-light);
+    margin-bottom: 4px;
+    transition: background-color 0.2s ease;
+}
+
+#dom-tree li > span:hover {
+    background-color: var(--hover-bg);
+    cursor: grab;
+}
+
+#dom-tree li.dragging-tree-item > span {
+    opacity: 0.7;
+    cursor: grabbing;
+}
+
+#dom-tree li.selected-tree-item > span,
+#dom-tree li .dom-tree-tag.selected-tag {
+    background-color: var(--selected-bg);
+    border-left: 3px solid var(--accent-color);
+    font-weight: bold;
+    color: var(--text-color-light);
+    padding-left: 3px;
+}
+
+/* Estilo para os ícones na árvore DOM */
+#dom-tree .material-icons {
+    font-size: 16px;
+    color: var(--icon-color);
+    margin-right: 5px;
+}
+
+/* Destaca elementos arrastáveis */
+#dom-tree li:hover {
+    background-color: var(--hover-bg);
+    /* border-left: 2px solid var(--accent-color); */
+}
+
+/* Destaque para ícones em elementos selecionados */
+#dom-tree li.selected-tree-item .material-icons,
+#dom-tree li .dom-tree-tag.selected-tag .material-icons {
+    color: var(--accent-color);
+}
+
+#dom-tree ul {
+    list-style: none;
+    padding-left: 20px; /* Adiciona recuo para indicar hierarquia */
+    margin-left: 0; /* Reset margin */
+    position: relative; /* Para posicionamento das linhas */
+}
+
+/* Estilo para elementos sendo arrastados */
+#dom-tree li.dragging-tree-item {
+    opacity: 0.6;
+    background-color: var(--selected-bg);
+    border: 1px dashed var(--accent-color);
+}
+
+/* Item que pode receber o elemento (drop target) */
+#dom-tree li.dom-tree-drop-target {
+    background-color: rgba(152, 195, 121, 0.2);
+    border: 1px dashed #98c379;
+}
+
+/* Ícones na Árvore DOM */
+#dom-tree .material-icons {
+    font-size: 1.1em;
+    margin-right: 4px; /* Espaço após o ícone */
+    vertical-align: middle;
+    color: var(--accent-color);
+}
+
+/* Linhas de conexão para visualizar hierarquia */
+#dom-tree li {
+    position: relative;
+}
+
+#dom-tree li::before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 0;
+    height: 100%;
+    border-left: 1px dotted var(--border-color);
+}
+
+#dom-tree li::after {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 12px;
+    width: 12px;
+    border-top: 1px dotted var(--border-color);
+}
+
+#dom-tree li:last-child::before {
+    height: 12px;
+}
+
+#dom-tree > li::before,
+#dom-tree > li::after {
+    display: none; /* Esconde linhas de conexão para o elemento raiz */
+}
+
+
+
+/* Abas */
+.tab-controls {
+    display: flex;
+    background-color: var(--bg-color-light);
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    padding: 8px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab-button .material-icons {
+    font-size: 1.2em;
+}
+
+.tab-button:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-color-light);
+}
+
+.tab-button.active {
+    background-color: var(--bg-color);
+    color: var(--text-color-light);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.tab-content {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-pane {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.tab-pane.active {
+    display: block; /* Mostra o painel ativo */
+}
+
+/* Preview */
+#preview-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #fff; /* Fundo branco para o preview em si */
+}
+
+/* Área de Código */
+.code-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#code-output {
+    flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--bg-color-lighter);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none; /* Desabilita redimensionamento manual */
+    white-space: pre;
+    overflow: auto;
+}
+
+.code-view button {
+    padding: 8px 15px;
+    cursor: pointer;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    margin-top: 5px;
+    align-self: flex-start; /* Alinha botões à esquerda */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.code-view button:hover {
+    background-color: #8ecafc; /* Cor mais clara no hover */
+}
+
+.code-view button .material-icons {
+    font-size: 1.2em;
+}
+
+/* Painel de Configurações */
+#settings-panel {
+    padding-top: 10px;
+}
+
+#settings-panel p {
+    color: var(--text-color);
+    font-style: italic;
+}
+
+#settings-panel .setting-item {
+    margin-bottom: 15px;
+}
+
+/* #settings-panel label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color-light);
+} */
+
+#settings-panel input[type="text"],
+#settings-panel input[type="number"],
+#settings-panel input[type="color"],
+#settings-panel textarea,
+#settings-panel select {
+    width: calc(100% - 12px); /* Ajusta largura considerando padding */
+    padding: 6px;
+    background-color: var(--bg-color-lighter);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+#settings-panel textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+#settings-panel button {
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #e06c75; /* Cor para botão de deletar */
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#settings-panel input[type="color"] {
+    width: 100%;
+    height: 30px;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#settings-panel button:hover {
+    background-color: #f08080;
+}
+
+/* Estilos para elementos selecionados no preview */
+/* (Estes são injetados no iframe, mas podemos definir aqui para referência) */
+.selected-element {
+    outline: 2px dashed var(--accent-color) !important;
+    box-shadow: 0 0 0 3px rgba(97, 175, 239, 0.3); /* Sombra suave */
+}
+
+.drag-over-element {
+    outline: 2px dashed #98c379; /* Verde para drop target */
+    background-color: rgba(152, 195, 121, 0.1);
+}
+
+/* Scrollbars customizadas (opcional, para Webkit) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-color-lighter);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--hover-bg);
+}

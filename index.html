@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Visual de HTML</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
+</head>
+<body>
+    <div class="editor-container">
+        <aside class="sidebar-left">
+            <h2><i class="material-icons">code</i> Tags HTML</h2>
+            <ul id="tag-list">
+                <li draggable="true" data-tag="div" data-editable-text="true">Div Padrão</li>
+                <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
+                <li draggable="true" data-tag="h1">H1</li>
+                <li draggable="true" data-tag="p" data-editable-text="true">Parágrafo</li>
+                <li draggable="true" data-tag="input">Input Texto</li>
+                <li draggable="true" data-tag="input" data-type="checkbox">Input Checkbox</li>
+                <li draggable="true" data-tag="input" data-type="radio" data-name="grupo-radio">Input Radio</li>
+                <li draggable="true" data-tag="button">Botão</li>
+                <li draggable="true" data-tag="form">Form</li>
+                <li draggable="true" data-tag="img" data-editable-src="true" data-editable-alt="true">Imagem</li>
+            </ul>
+
+            <div class="dom-tree-view"> <!-- Novo: Container da Árvore DOM -->
+                <h2><i class="material-icons">account_tree</i> Estrutura DOM</h2>
+                <ul id="dom-tree"></ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="tab-controls">
+                <button class="tab-button active" data-tab="preview-tab"><i class="material-icons">visibility</i> Preview</button>
+                <button class="tab-button" data-tab="code-tab"><i class="material-icons">integration_instructions</i> Código</button>
+                <button id="open-external-preview" style="margin-left: auto;"><i class="material-icons">open_in_new</i> Abrir Preview Externo</button>
+            </div>
+            <div class="tab-content">
+                <div id="preview-tab" class="tab-pane active">
+                    <iframe id="preview-frame" title="Preview Area"></iframe>
+                </div>
+                <div id="code-tab" class="tab-pane">
+                    <div class="code-view">
+                        <textarea id="code-output" readonly></textarea>
+                        <button id="copy-code"><i class="material-icons">content_copy</i> Copiar Código</button>
+                        <button id="download-code"><i class="material-icons">download</i> Baixar Código</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="sidebar-right">
+            <h2><i class="material-icons">settings</i> Configurações</h2>
+            <div id="settings-panel">
+                <p>Selecione um elemento para configurar.</p>
+                <!-- Configurações aparecerão aqui -->
+            </div>
+        </aside>
+    </div>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>
