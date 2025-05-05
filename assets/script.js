@@ -54,11 +54,118 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Botão Preview Externo --- //
     openExternalPreviewButton.addEventListener('click', () => {
-        // Atualiza o localStorage antes de abrir, garantindo que está com a última versão
-        updateExternalPreviewStorage(); 
-        // Abre preview.php em uma nova aba
-        window.open('preview.php', '_blank');
+        // Gera o HTML completo para preview
+        const htmlContent = generateCompleteHTML();
+        // Usa a API do Electron para abrir o preview em uma nova janela
+        if (window.electron) {
+            window.electron.preview.abrir(htmlContent);
+        }
     });
+    
+    // --- Botões para Salvar e Exportar Projeto --- //
+    const saveProjectButton = document.getElementById('save-project');
+    const exportHTMLButton = document.getElementById('export-html');
+    
+    // Verifica se estamos no ambiente Electron
+    if (window.electron) {
+        // Habilita os botões de salvar e exportar
+        if (saveProjectButton) {
+            saveProjectButton.disabled = false;
+            saveProjectButton.addEventListener('click', () => {
+                const htmlContent = generateCompleteHTML();
+                window.electron.projeto.salvar(htmlContent);
+            });
+        }
+        
+        if (exportHTMLButton) {
+            exportHTMLButton.disabled = false;
+            exportHTMLButton.addEventListener('click', () => {
+                const htmlContent = generateCompleteHTML();
+                window.electron.exportar.html(htmlContent);
+            });
+        }
+        
+        // Configura os listeners para eventos do Electron
+        setupElectronListeners();
+    }
+    
+    // Função para gerar o HTML completo
+    function generateCompleteHTML() {
+        const doctype = '<!DOCTYPE html>';
+        const htmlContent = previewDocument.documentElement.outerHTML;
+        return doctype + htmlContent;
+    }
+    
+    // Função para edição de texto inline com duplo clique
+    function handleDoubleClickToEdit(event) {
+        event.stopPropagation();
+        const element = event.target;
+        
+        // Verifica se já está em modo de edição
+        if (element.contentEditable === 'true') return;
+        
+        // Salva o conteúdo original para caso de cancelamento
+        const originalContent = element.textContent;
+        
+        // Ativa a edição
+        element.contentEditable = 'true';
+        element.focus();
+        
+        // Seleciona todo o texto
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        // Adiciona estilo visual para indicar edição
+        element.style.outline = '2px solid #007bff';
+        element.style.padding = '2px';
+        
+        // Função para finalizar a edição
+        function finishEditing(save = true) {
+            element.contentEditable = 'false';
+            element.style.outline = '';
+            element.style.padding = '';
+            
+            // Restaura o conteúdo original se não salvar
+            if (!save) {
+                element.textContent = originalContent;
+            } else {
+                // Atualiza o código e a árvore DOM
+                updateCodeOutput();
+                updateDomTree();
+            }
+            
+            // Remove os event listeners
+            document.removeEventListener('click', handleOutsideClick);
+            element.removeEventListener('keydown', handleKeyDown);
+        }
+        
+        // Função para lidar com cliques fora do elemento
+        function handleOutsideClick(e) {
+            if (!element.contains(e.target)) {
+                finishEditing(true);
+            }
+        }
+        
+        // Função para lidar com teclas pressionadas
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                finishEditing(true);
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                finishEditing(false);
+            }
+        }
+        
+        // Adiciona event listeners para finalizar a edição
+        setTimeout(() => {
+            document.addEventListener('click', handleOutsideClick);
+            element.addEventListener('keydown', handleKeyDown);
+        }, 0);
+    }
 
     // --- Funcionalidade de Arrastar e Soltar --- //
 
@@ -840,6 +947,83 @@ ${htmlCode}
 
         codeOutput.value = fullCode;
     }
+    
+    // --- Botões de Copiar e Baixar Código --- //
+    copyCodeButton.addEventListener('click', () => {
+        codeOutput.select();
+        document.execCommand('copy');
+        alert('Código copiado para a área de transferência!');
+    });
+
+    downloadCodeButton.addEventListener('click', () => {
+        const htmlContent = codeOutput.value;
+        
+        // Se estamos no Electron, usamos a API nativa para salvar
+        if (window.electron) {
+            window.electron.exportar.html(htmlContent);
+        } else {
+            // Fallback para o método tradicional de download
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pagina.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    });
+    
+    // --- Integração com Electron --- //
+    // Escuta eventos do processo principal
+    if (window.electron) {
+        // Evento para criar um novo projeto
+        window.electron.receber.novoProjeto(() => {
+            if (confirm('Deseja criar um novo projeto? Todas as alterações não salvas serão perdidas.')) {
+                // Limpa o conteúdo do preview
+                previewBody.innerHTML = '';
+                updateCodeOutput();
+                updateDOMTree();
+            }
+        });
+        
+        // Evento para salvar o projeto
+        window.electron.receber.salvarProjeto(() => {
+            const htmlContent = generateCompleteHTML();
+            window.electron.projeto.salvar(htmlContent);
+        });
+        
+        // Evento para exportar HTML
+        window.electron.receber.exportarHTML(() => {
+            const htmlContent = codeOutput.value;
+            window.electron.exportar.html(htmlContent);
+        });
+        
+        // Evento para carregar um projeto
+        window.electron.projeto.carregar((event, data) => {
+            try {
+                // Extrai o conteúdo HTML do arquivo
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.content, 'text/html');
+                
+                // Limpa o conteúdo atual
+                previewBody.innerHTML = '';
+                
+                // Copia o conteúdo do body do arquivo para o preview
+                const bodyContent = doc.body.innerHTML;
+                previewBody.innerHTML = bodyContent;
+                
+                // Atualiza o código e a árvore DOM
+                updateCodeOutput();
+                updateDOMTree();
+                
+                alert('Projeto carregado com sucesso!');
+            } catch (error) {
+                alert('Erro ao carregar o projeto: ' + error.message);
+            }
+        });
+    }
 
     // Novo: Função recursiva para gerar HTML e CSS
     function generateCodeRecursive(parentElement, indent = '    ') {
@@ -891,6 +1075,94 @@ ${htmlCode}
     // Atualiza o código inicial e a árvore DOM
     updateCodeOutput();
     updateDomTree();
+    
+    // Função para configurar os listeners de eventos do Electron
+    function setupElectronListeners() {
+        // Listener para o evento de novo projeto
+        window.electron.receber.novoProjeto(() => {
+            if (confirm('Deseja criar um novo projeto? Todas as alterações não salvas serão perdidas.')) {
+                // Limpa o conteúdo atual
+                previewBody.innerHTML = '';
+                elementCounter = {}; // Reseta os contadores de elementos
+                updateCodeOutput();
+                updateDomTree();
+            }
+        });
+        
+        // Listener para o evento de salvar projeto
+        window.electron.receber.salvarProjeto(() => {
+            const htmlContent = generateCompleteHTML();
+            window.electron.projeto.salvar(htmlContent);
+        });
+        
+        // Listener para o evento de exportar HTML
+        window.electron.receber.exportarHTML(() => {
+            const htmlContent = generateCompleteHTML();
+            window.electron.exportar.html(htmlContent);
+        });
+        
+        // Listener para carregar um projeto
+        window.electron.projeto.carregar((event, data) => {
+            try {
+                // Extrai o conteúdo HTML do arquivo
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.content, 'text/html');
+                
+                // Limpa o conteúdo atual
+                previewBody.innerHTML = '';
+                elementCounter = {}; // Reseta os contadores de elementos
+                
+                // Copia o conteúdo do body do arquivo para o preview
+                const bodyContent = doc.body.innerHTML;
+                previewBody.innerHTML = bodyContent;
+                
+                // Adiciona eventos de clique e arraste aos elementos carregados
+                setupLoadedElements(previewBody);
+                
+                // Atualiza o código e a árvore DOM
+                updateCodeOutput();
+                updateDomTree();
+                
+                alert('Projeto carregado com sucesso!');
+            } catch (error) {
+                alert('Erro ao carregar o projeto: ' + error.message);
+            }
+        });
+    }
+    
+    // Função para configurar eventos em elementos carregados de um projeto
+    function setupLoadedElements(parentElement) {
+        // Adiciona eventos a todos os elementos com ID (criados pelo editor)
+        const elements = parentElement.querySelectorAll('[id]');
+        elements.forEach(element => {
+            // Extrai o tipo de elemento do ID (ex: div-1 -> div)
+            const tagType = element.tagName.toLowerCase();
+            const idParts = element.id.split('-');
+            if (idParts.length > 1) {
+                const counter = parseInt(idParts[1]);
+                // Atualiza o contador de elementos se necessário
+                if (!elementCounter[tagType] || elementCounter[tagType] < counter) {
+                    elementCounter[tagType] = counter;
+                }
+            }
+            
+            // Adiciona listener para seleção
+            element.addEventListener('click', (event) => {
+                event.stopPropagation();
+                selectElement(element);
+            });
+            
+            // Torna o elemento arrastável
+            element.setAttribute('draggable', 'true');
+            element.addEventListener('dragstart', handlePreviewDragStart);
+            element.addEventListener('dragend', handlePreviewDragEnd);
+            
+            // Adiciona edição de texto para elementos de texto
+            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'button', 'div'].includes(tagType)) {
+                element.addEventListener('dblclick', handleDoubleClickToEdit);
+            }
+        });
+    }
 });
 
 function updateCodeOutput() {

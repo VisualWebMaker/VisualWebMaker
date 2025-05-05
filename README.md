@@ -21,15 +21,18 @@ O VisualWebMaker é uma ferramenta open source que permite criar páginas web de
 - **Edição de Propriedades**: Configure facilmente atributos, estilos e conteúdo dos elementos
 - **Exportação de Código**: Copie ou baixe o código HTML gerado para usar em seus projetos
 - **Preview Externo**: Visualize sua criação em uma nova janela para testar em tamanho real
+- **Aplicativo Desktop**: Utilize como aplicativo desktop multiplataforma graças ao Electron
 
 ## 🚀 Como Usar
 
-### Requisitos
+### Como Aplicativo Desktop (Electron)
 
-- Navegador web moderno (Chrome, Firefox, Edge, Safari)
-- Servidor web local (como Apache, Nginx) ou extensão Live Server para VS Code
+#### Requisitos
 
-### Instalação
+- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+- npm ou yarn
+
+#### Instalação e Execução
 
 1. Clone o repositório:
    ```bash
@@ -41,52 +44,85 @@ O VisualWebMaker é uma ferramenta open source que permite criar páginas web de
    cd VisualWebMaker
    ```
 
-3. Abra o arquivo `index.html` em seu servidor web local ou utilize uma extensão como Live Server no VS Code.
+3. Instale as dependências:
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
+
+4. Execute o aplicativo:
+   ```bash
+   npm start
+   # ou
+   yarn start
+   ```
+
+5. Para desenvolvimento com hot-reload:
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
+
+### Como Aplicação Web
+
+#### Requisitos
+
+- Navegador web moderno (Chrome, Firefox, Edge, Safari)
+- Servidor web local (como Apache, Nginx) ou extensão Live Server para VS Code
+
+#### Instalação
+
+1. Clone o repositório conforme instruções acima
+2. Abra o arquivo `index.html` em seu servidor web local ou utilize uma extensão como Live Server no VS Code.
 
 ### Uso Básico
 
 1. Arraste elementos da barra lateral esquerda para a área de preview
 2. Selecione um elemento para editar suas propriedades no painel direito
 3. Visualize a estrutura DOM na árvore localizada na parte inferior da barra lateral esquerda
-4. Alterne entre as abas "Preview" e "Código" para ver o HTML gerado
-5. Use o botão "Copiar Código" ou "Baixar Código" para exportar seu trabalho
+4. Exporte o código HTML quando finalizar seu design
 
-## 🛠️ Tecnologias Utilizadas
+## 🔧 Construindo o Aplicativo
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Prettier (para formatação de código)
-- Material Icons
+Para criar versões distribuíveis do aplicativo:
 
-## 🤝 Como Contribuir
+```bash
+# Para todas as plataformas
+npm run build
+
+# Específico para Windows
+npm run build:win
+
+# Específico para macOS
+npm run build:mac
+
+# Específico para Linux
+npm run build:linux
+```
+
+Os arquivos gerados estarão disponíveis na pasta `dist`.
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 
 1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Faça commit das suas alterações (`git commit -m 'Add some AmazingFeature'`)
-4. Envie para a branch (`git push origin feature/AmazingFeature`)
+2. Crie sua branch de feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
-
-### Áreas para Contribuição
-
-- Adicionar novos componentes/widgets
-- Melhorar a interface do usuário
-- Implementar recursos de responsividade
-- Adicionar suporte para CSS personalizado
-- Melhorar a documentação
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a Licença GPL-3.0 - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a licença GPL-3.0 - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## 📬 Contato
+## 📊 Roadmap
 
-Se você tiver alguma dúvida ou sugestão sobre o projeto, sinta-se à vontade para abrir uma issue ou enviar uma mensagem para o mantenedor do projeto.
-
----
-
-<div align="center">
-
-**VisualWebMaker** - Desenvolvido com ❤️ pela comunidade open source
-
-</div>
+- [ ] Suporte a templates pré-definidos
+- [ ] Integração com frameworks CSS populares
+- [ ] Suporte a componentes personalizados
+- [ ] Histórico de ações (desfazer/refazer)
+- [ ] Salvamento de projetos na nuvem
+- [ ] Modo colaborativo em tempo real

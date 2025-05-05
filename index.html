@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Visual de HTML</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com">
+    <title>Visual Web Maker</title>
     <link rel="stylesheet" href="assets/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
@@ -44,8 +45,12 @@
                 <div id="code-tab" class="tab-pane">
                     <div class="code-view">
                         <textarea id="code-output" readonly></textarea>
-                        <button id="copy-code"><i class="material-icons">content_copy</i> Copiar Código</button>
-                        <button id="download-code"><i class="material-icons">download</i> Baixar Código</button>
+                        <div class="code-actions">
+                            <button id="copy-code"><i class="material-icons">content_copy</i> Copiar Código</button>
+                            <button id="download-code"><i class="material-icons">download</i> Baixar Código</button>
+                            <button id="save-project" disabled><i class="material-icons">save</i> Salvar Projeto</button>
+                            <button id="export-html" disabled><i class="material-icons">code</i> Exportar HTML</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,56 @@
+{
+  "name": "visual-web-maker",
+  "version": "1.0.0",
+  "description": "Editor visual de HTML com interface de arrastar e soltar",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/VisualWebMaker.git"
+  },
+  "keywords": [
+    "electron",
+    "html",
+    "editor",
+    "visual",
+    "drag-and-drop"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.visualwebmaker.app",
+    "productName": "Visual Web Maker",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**/*",
+      "!build/**/*",
+      "!node_modules/**/*"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icons/icon.ico"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "assets/icons/icon.icns"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "assets/icons/icon.png"
+    }
+  }
+}

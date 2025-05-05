@@ -346,6 +346,55 @@ h2 .material-icons {
     overflow: auto;
 }
 
+/* Estilo para os botões de ação do código */
+.code-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#copy-code, #download-code, #save-project, #export-html {
+    padding: 8px 12px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+#copy-code, #download-code {
+    background-color: #4CAF50;
+}
+
+#save-project {
+    background-color: #2196F3;
+}
+
+#export-html {
+    background-color: #FF9800;
+}
+
+#copy-code:hover, #download-code:hover {
+    background-color: #45a049;
+}
+
+#save-project:hover {
+    background-color: #0b7dda;
+}
+
+#export-html:hover {
+    background-color: #e68a00;
+}
+
+#save-project:disabled, #export-html:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .code-view button {
     padding: 8px 15px;
     cursor: pointer;
