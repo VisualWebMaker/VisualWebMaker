@@ -15,7 +15,7 @@ function createWindow() {
       contextIsolation: true, // Isola o contexto do Electron do contexto da página
       preload: path.join(__dirname, 'preload.js') // Carrega o script de preload
     },
-    icon: path.join(__dirname, 'assets/icons/icon.png')
+    icon: path.join(__dirname, 'assets/icon.png')
   });
 
   // Carrega o arquivo index.html da aplicação
