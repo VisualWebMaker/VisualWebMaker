@@ -36,7 +36,7 @@ VisualWebMaker is an open source tool that allows you to create web pages visual
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/VisualWebMaker.git
+   git clone https://github.com/VisualWebMaker/VisualWebMaker.git
    ```
 
 2. Navigate to the project folder:

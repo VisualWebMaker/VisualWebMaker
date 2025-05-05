@@ -28,6 +28,7 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden; /* Evita scroll no body principal */
+    
 }
 
 /* Layout Geral */

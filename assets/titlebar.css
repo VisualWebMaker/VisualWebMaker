@@ -1,0 +1,63 @@
+/* Estilos para a barra de título personalizada */
+.titlebar {
+    height: 50px;
+    background-color: #000000;
+    color: #cccccc;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    user-select: none;
+    -webkit-app-region: drag; /* Permite arrastar a janela pela barra de título */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    border-bottom: 1px solid #333;
+}
+
+.titlebar-title {
+    margin-left: 10px;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.titlebar-controls {
+    display: flex;
+    -webkit-app-region: no-drag; /* Permite clicar nos controles */
+}
+
+.titlebar-button {
+    width: 46px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: #cccccc;
+    outline: none;
+    cursor: pointer;
+}
+
+.titlebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.titlebar-button.close:hover {
+    background-color: #e81123;
+    color: white;
+}
+
+/* Ajustes para o layout da aplicação com a barra de título */
+body {
+    margin-top: 50px; /* Espaço para a barra de título */
+    overflow: hidden;
+}
+
+/* Ícones para os botões da barra de título */
+.titlebar-button i {
+    font-size: 16px;
+}

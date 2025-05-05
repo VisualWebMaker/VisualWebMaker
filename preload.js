@@ -21,5 +21,13 @@ contextBridge.exposeInMainWorld('electron', {
     novoProjeto: (callback) => ipcRenderer.on('new-project', callback),
     salvarProjeto: (callback) => ipcRenderer.on('save-project', callback),
     exportarHTML: (callback) => ipcRenderer.on('export-html', callback)
+  },
+  // Funções para controle da janela (barra de título personalizada)
+  janela: {
+    minimizar: () => ipcRenderer.send('window-minimize'),
+    maximizar: () => ipcRenderer.send('window-maximize'),
+    fechar: () => ipcRenderer.send('window-close'),
+    isMaximizado: () => ipcRenderer.invoke('window-is-maximized'),
+    obterTitulo: () => ipcRenderer.invoke('get-window-title')
   }
 });

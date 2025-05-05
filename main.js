@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, shell, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -10,6 +10,9 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false, // Remove a barra de título padrão
+    titleBarStyle: 'hidden', // Oculta a barra de título padrão
+    backgroundColor: '#1e1e1e', // Cor de fundo similar ao VSCode
     webPreferences: {
       nodeIntegration: false, // Por segurança, desabilita a integração Node.js no renderer
       contextIsolation: true, // Isola o contexto do Electron do contexto da página
@@ -159,6 +162,34 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // No macOS é comum recriar uma janela quando o ícone do dock é clicado e não há outras janelas abertas
   if (mainWindow === null) createWindow();
+});
+
+// Eventos para controle da janela personalizada
+ipcMain.on('window-minimize', () => {
+  if (mainWindow) mainWindow.minimize();
+});
+
+ipcMain.on('window-maximize', () => {
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  }
+});
+
+ipcMain.on('window-close', () => {
+  if (mainWindow) mainWindow.close();
+});
+
+// Handlers para métodos invoke
+ipcMain.handle('window-is-maximized', () => {
+  return mainWindow ? mainWindow.isMaximized() : false;
+});
+
+ipcMain.handle('get-window-title', () => {
+  return 'Visual Web Maker';
 });
 
 // Configuração dos eventos IPC para comunicação entre processos
