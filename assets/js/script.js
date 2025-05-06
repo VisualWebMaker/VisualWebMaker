@@ -3,9 +3,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewFrame = document.getElementById('preview-frame');
     const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
     const settingsPanel = document.getElementById('settings-panel');
-    const codeOutput = document.getElementById('code-output');
+    const codeEditorElement = document.getElementById('code-editor');
     const copyCodeButton = document.getElementById('copy-code');
     const downloadCodeButton = document.getElementById('download-code');
+    
+    // Inicializa o Ace Editor
+    const codeEditor = ace.edit("code-editor");
+    codeEditor.setTheme("ace/theme/github_dark");
+    codeEditor.session.setMode("ace/mode/html");
+    codeEditor.setOptions({
+        fontSize: "14px",
+        showPrintMargin: false,
+        highlightActiveLine: true,
+        enableLiveAutocompletion: true,
+        wrap: true
+    });
     const domTreeContainer = document.getElementById('dom-tree'); // Novo: Container da árvore DOM
     const tabButtons = document.querySelectorAll('.tab-button'); // Novo: Botões das abas
     const tabPanes = document.querySelectorAll('.tab-pane'); // Novo: Painéis das abas
@@ -53,14 +65,77 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Botão Preview Externo --- //
-    openExternalPreviewButton.addEventListener('click', () => {
-        // Gera o HTML completo para preview
-        const htmlContent = generateCompleteHTML();
-        // Usa a API do Electron para abrir o preview em uma nova janela
-        if (window.electron) {
-            window.electron.preview.abrir(htmlContent);
+    // openExternalPreviewButton.addEventListener('click', () => {
+    //     // Gera o HTML completo para preview
+    //     const htmlContent = generateCompleteHTML();
+    //     // Usa a API do Electron para abrir o preview em uma nova janela
+    //     if (window.electron) {
+    //         window.electron.preview.abrir(htmlContent);
+    //     }
+    // });
+    
+    // Adiciona evento para atualizar o preview quando o código é editado
+    codeEditor.session.on('change', debounce(() => {
+        try {
+            const code = codeEditor.getValue();
+            // Atualiza o preview com o código editado
+            updatePreviewFromCode(code);
+        } catch (error) {
+            console.error('Erro ao atualizar preview:', error);
         }
-    });
+    }, 500)); // Debounce de 500ms para evitar atualizações muito frequentes
+    
+    // Função para atualizar o preview a partir do código editado
+    function updatePreviewFromCode(code) {
+        // Extrai o conteúdo do body do código HTML
+        const bodyMatch = code.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        if (bodyMatch && bodyMatch[1]) {
+            const bodyContent = bodyMatch[1].trim();
+            
+            // Atualiza o conteúdo do body no preview
+            previewDocument.body.innerHTML = bodyContent;
+            
+            // Reaplica os event listeners nos elementos do preview
+            setupPreviewEventListeners();
+            
+            // Atualiza a árvore DOM
+            updateDomTree();
+        }
+    }
+    
+    // Função para reconfigurar os event listeners nos elementos do preview
+    function setupPreviewEventListeners() {
+        // Adiciona listeners para seleção de elementos
+        Array.from(previewDocument.body.querySelectorAll('*')).forEach(element => {
+            element.addEventListener('click', (event) => {
+                event.stopPropagation();
+                selectElement(element);
+            });
+            
+            // Torna elementos arrastáveis
+            element.setAttribute('draggable', 'true');
+            element.addEventListener('dragstart', handlePreviewDragStart);
+            element.addEventListener('dragend', handlePreviewDragEnd);
+            
+            // Adiciona edição de texto inline para elementos com texto
+            if (['DIV', 'P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'BUTTON', 'SPAN'].includes(element.tagName)) {
+                element.addEventListener('dblclick', handleDoubleClickToEdit);
+            }
+        });
+    }
+    
+    // Função de debounce para limitar a frequência de chamadas
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
     
     // --- Botões para Salvar e Exportar Projeto --- //
     const saveProjectButton = document.getElementById('save-project');
@@ -91,9 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Função para gerar o HTML completo
     function generateCompleteHTML() {
-        const doctype = '<!DOCTYPE html>';
-        const htmlContent = previewDocument.documentElement.outerHTML;
-        return doctype + htmlContent;
+        // Usa o código do editor Ace se estiver na aba de código
+        const activeTab = document.querySelector('.tab-button.active');
+        if (activeTab && activeTab.getAttribute('data-tab') === 'code-tab') {
+            return codeEditor.getValue();
+        } else {
+            const doctype = '<!DOCTYPE html>';
+            const htmlContent = previewDocument.documentElement.outerHTML;
+            return doctype + htmlContent;
+        }
     }
     
     // Função para edição de texto inline com duplo clique
@@ -320,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 newElement.textContent = 'Botão';
                 break;
             case 'img':
-                newElement.src = draggedElementData?.src || 'https://via.placeholder.com/150';
+                newElement.src = draggedElementData?.src || 'https://picsum.photos/150';
                 newElement.alt = draggedElementData?.alt || 'Descrição da imagem';
                 newElement.style.maxWidth = '100%';
                 newElement.style.display = 'block';
@@ -334,12 +415,12 @@ document.addEventListener('DOMContentLoaded', () => {
             selectElement(newElement);
         });
 
-        // --- Novo: Edição de Texto Inline ---
+        // --- Edição de Texto Inline ---
         if (draggedElementData?.editableText === 'true') {
             newElement.addEventListener('dblclick', handleDoubleClickToEdit);
         }
 
-        // --- Novo: Tornar elemento arrastável dentro do preview ---
+        // --- Tornar elemento arrastável dentro do preview ---
         newElement.setAttribute('draggable', 'true');
         newElement.addEventListener('dragstart', handlePreviewDragStart);
         newElement.addEventListener('dragend', handlePreviewDragEnd);
@@ -945,18 +1026,21 @@ ${htmlCode}
 </body>
 </html>`;
 
-        codeOutput.value = fullCode;
+        // Atualiza o conteúdo do editor Ace
+        codeEditor.setValue(fullCode);
+        codeEditor.clearSelection();
     }
     
     // --- Botões de Copiar e Baixar Código --- //
     copyCodeButton.addEventListener('click', () => {
-        codeOutput.select();
-        document.execCommand('copy');
-        alert('Código copiado para a área de transferência!');
+        const code = codeEditor.getValue();
+        navigator.clipboard.writeText(code)
+            .then(() => alert('Código copiado para a área de transferência!'))
+            .catch(err => console.error('Erro ao copiar código:', err));
     });
 
     downloadCodeButton.addEventListener('click', () => {
-        const htmlContent = codeOutput.value;
+        const htmlContent = codeEditor.getValue();
         
         // Se estamos no Electron, usamos a API nativa para salvar
         if (window.electron) {

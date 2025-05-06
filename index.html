@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net">
     <title>Visual Web Maker</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/titlebar.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/ace.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/mode-html.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/theme-monokai.js"></script>
     <script src="assets/js/titlebar.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/file-explorer.js"></script>
@@ -22,6 +25,9 @@
                 <img src="assets/images/logo.svg" alt="">
             </div>
         </div>
+
+        
+
         <div class="titlebar-controls">
             <button class="titlebar-button" id="minimize-button">
                 <i class="material-icons">remove</i>
@@ -42,8 +48,8 @@
                 <span class="legend">Abrir Diretório</span>
             </button>
         </div>
-        <aside class="sidebar-left">
 
+        <aside class="sidebar-left">
             <div class="sidebar-section">
                 <sidebar-title>
                     <span>Explorador</span>
@@ -58,18 +64,22 @@
             
             <div class="sidebar-section">
                 <sidebar-title>
-                    <span>Explorador</span>
+                    <span>Tags</span>
                     <img src="assets/chevron-down.svg" alt="">
                 </sidebar-title>
                 <ul id="tag-list">
-                    <li draggable="true" data-tag="div" data-editable-text="true">Div Padrão</li>
-                    <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
-                    <li draggable="true" data-tag="h1">H1</li>
-                    <li draggable="true" data-tag="p" data-editable-text="true">Parágrafo</li>
-                    <li draggable="true" data-tag="input">Input Texto</li>
-                    <li draggable="true" data-tag="input" data-type="checkbox">Input Checkbox</li>
-                    <li draggable="true" data-tag="input" data-type="radio" data-name="grupo-radio">Input Radio</li>
-                    <li draggable="true" data-tag="button">Botão</li>
+                    <li class="separator" draggable="false">Forms</li>
+                    <li draggable="true" data-tag="label"><img src="assets/images/input-icon-placeholder.svg"> label</li>
+                    <li draggable="true" data-tag="input" data-type="text"><img src="assets/images/input-icon-placeholder.svg"> Campo de Texto</li>
+                    <li draggable="true" data-tag="input" data-type="password"><img src="assets/images/input-icon-placeholder.svg"> Campo de Senha</li>
+                    <li draggable="true" data-tag="input" data-type="number"><img src="assets/images/input-icon-placeholder.svg"> Campo Numérico</li>
+                    <li draggable="true" data-tag="input" data-type="checkbox"><img src="assets/images/input-icon-placeholder.svg"> Input Checkbox</li>
+                    <li draggable="true" data-tag="input" data-type="radio"><img src="assets/images/input-icon-placeholder.svg"> Input Checkbox</li>
+                    <li draggable="true" data-tag="button"><img src="assets/images/input-icon-placeholder.svg">Botão</li>
+                    <li class="separator" draggable="false">Content</li>
+                    <li draggable="true" data-tag="div" data-editable-text="true"><img src="assets/images/input-icon-placeholder.svg">DIV</li>                    <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
+                    <li draggable="true" data-tag="h1"><img src="assets/images/input-icon-placeholder.svg">H1</li>
+                    <li draggable="true" data-tag="p" data-editable-text="true"><img src="assets/images/input-icon-placeholder.svg">Parágrafo</li>
                     <li draggable="true" data-tag="form">Form</li>
                     <li draggable="true" data-tag="img" data-editable-src="true" data-editable-alt="true">Imagem</li>
                 </ul>
@@ -85,22 +95,24 @@
         </aside>
 
         <main class="main-content">
+
             <div class="tab-controls">
                 <button class="tab-button active" data-tab="preview-tab">
-                    <i class="material-icons">visibility</i> Preview
+                    Visual
                 </button>
                 <button class="tab-button" data-tab="code-tab">
-                    <i class="material-icons">integration_instructions</i> Código
+                    Code
                 </button>
                 <!-- <button id="open-external-preview" style="margin-left: auto;"><i class="material-icons">open_in_new</i> Abrir Preview Externo</button> -->
             </div>
+            
             <div class="tab-content">
                 <div id="preview-tab" class="tab-pane active">
                     <iframe id="preview-frame" title="Preview Area"></iframe>
                 </div>
                 <div id="code-tab" class="tab-pane">
                     <div class="code-view">
-                        <textarea id="code-output" readonly></textarea>
+                        <div id="code-editor"></div>
                         <div class="code-actions">
                             <button id="copy-code"><i class="material-icons">content_copy</i> Copiar Código</button>
                             <button id="download-code"><i class="material-icons">download</i> Baixar Código</button>
@@ -113,10 +125,14 @@
         </main>
 
         <aside class="sidebar-right">
-            <h2><i class="material-icons">settings</i> Configurações</h2>
-            <div id="settings-panel">
-                <p>Selecione um elemento para configurar.</p>
-                <!-- Configurações aparecerão aqui -->
+            <div class="sidebar-section">
+                <sidebar-title>
+                    <span>Parametros</span>
+                    <img src="assets/chevron-down.svg" alt="">
+                </sidebar-title>
+                <div id="settings-panel">
+                    <p style="text-align: center; padding: 20px;">Selecione um elemento para configurar.</p>
+                </div>
             </div>
         </aside>
     </div>

@@ -3,10 +3,8 @@
     flex-direction: column;
     height: 100%;
     width: 60px;
-    background: var(--main-sidebar);
-    border-right: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: var(--bg-card);
+    border-radius: 5px;
 }
 
 .main-sidebar .action-button {
@@ -65,25 +63,31 @@
 .sidebar-right {
     width: 250px;
     background-color: var(--bg-card);
-    padding: 0;
+    padding: 5px;
     overflow-y: auto;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    border-radius: 5px;
 }
+
+/* .sidebar-left{
+    border-right: 1px solid var(--border-color);
+ }
+ .sidebar-right {
+    border-left: 1px solid var(--border-color);
+ } */
 
 .sidebar-section {
     padding: 10px 0;
-    border-top: solid 1px var(--border-color);
+    border-bottom: solid 1px var(--border-color);
     overflow: hidden;
+    min-height: 200px;
 }
 .sidebar-section.collapsed {
-    height: 30px;
-    padding: 10px 0;
-    border-top: solid 1px var(--border-color);
+    height: 70px;
+    min-height: 70px;
 }
 
 .sidebar-section sidebar-title {
@@ -136,12 +140,13 @@
 
 }
 
-#file-tree li:hover {
+#file-tree li:not(.expanded):hover {
     background-color: var(--hover-bg);
 }
-#file-tree li.expanded:hover {
+
+/* #file-tree li.expanded:hover {
     background-color: none;
-}
+} */
 
 #file-tree li .file-icon {
     float: left;

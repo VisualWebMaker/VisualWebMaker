@@ -1,6 +1,6 @@
 /* Estilos para a barra de título personalizada */
 .titlebar {
-    height: 50px;
+    height: 45px;
     background-color: var(--titlebar-color);
     color: #cccccc;
     display: flex;
@@ -14,9 +14,8 @@
     left: 0;
     right: 0;
     z-index: 9999;
-    border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+    /* border-bottom: 1px solid var(--border-color); */
     overflow: hidden;
-    backdrop-filter: blur(10px);
 }
 
 .titlebar .logo {
@@ -95,7 +94,6 @@
 
 /* Ajustes para o layout da aplicação com a barra de título */
 body {
-    margin-top: 50px; /* Espaço para a barra de título */
     overflow: hidden;
 }
 

@@ -1,14 +1,29 @@
+/* Importação da fonte Inter */
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+}
+
 /* Reset básico e tema escuro */
 :root {
-    --titlebar-color: rgba(18, 18, 19, 0.7);
-    --main-sidebar: rgba(30, 32, 43, 0.7);
-    --bg-color: rgba(24, 25, 27, 0.7);
-    --bg-card: rgba(18, 18, 19, 0.7);
-    --bg-color-light: rgba(42, 43, 46, 0.7);
-    --bg-color-lighter: rgba(57, 59, 63, 0.7);
+    --titlebar-color: rgb(44, 44, 49);
+    --main-sidebar: rgba(47, 50, 63, 1);
+    --bg-color: rgba(24, 25, 27, 1);
+    --bg-card: rgb(26, 26, 29);
+    --bg-color-light: rgba(42, 43, 46, 1);
+    --bg-color-lighter: rgba(57, 59, 63, 1);
     --text-color: #e0e2e6;
     --text-color-light: #d5d7dd;
-    --border-color: #282B3B;
+    --border-color: #494b58;
     --accent-color: #61afef;
     --selected-bg: #4b5263;
     --selected-border: var(--accent-color);
@@ -25,14 +40,14 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     color: var(--text-color);
-    background-color: transparent;
+    background: var(--titlebar-color);
     overflow: hidden;
-    height: 100vh;
+    height: calc(100vh - 40px);
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 /* Adiciona um fundo gradiente para melhorar o efeito de vidro */
@@ -45,17 +60,15 @@ html {
     display: flex;
     width: 100%;
     height: 100%;
-    background-color: rgba(24, 25, 27, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding-top: 50px;
+    gap: 5px;
+    padding: 5px;
 }
 
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-color);
+    background-color: var(--bg-card);
     overflow: hidden; /* Evita scroll duplo */
 }
 
@@ -83,14 +96,17 @@ h2 .material-icons {
     padding: 0;
     margin: 0 0 20px 0;
     display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 #tag-list li {
     padding: 8px 12px;
     margin-bottom: 5px;
-    background-color: var(--bg-color-lighter);
+    background: none;
     border-radius: 4px;
     cursor: grab;
+    width: 50%;
     transition: background-color 0.2s ease;
     border: 1px solid var(--border-color);
 }
@@ -247,26 +263,20 @@ h2 .material-icons {
 .tab-controls {
     display: flex;
     background-color: var(--bg-color-light);
-    padding: 5px 10px;
-    border-bottom: 1px solid var(--border-color);
+    padding: 0;
 }
 
 .tab-button {
-    padding: 8px 15px;
     cursor: pointer;
     border: none;
-    background-color: transparent;
+    background: #00000055;
     color: var(--text-color);
-    margin-right: 5px;
-    border-radius: 4px 4px 0 0;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 0;
+    padding: 10px;
+    border: solid 1px var(--border-color);
     transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.tab-button .material-icons {
-    font-size: 1.2em;
 }
 
 .tab-button:hover {
@@ -275,7 +285,7 @@ h2 .material-icons {
 }
 
 .tab-button.active {
-    background-color: var(--bg-color);
+    background-color: #FFFFFF55;
     color: var(--text-color-light);
     border-bottom: 2px solid var(--accent-color);
 }
@@ -316,11 +326,11 @@ h2 .material-icons {
     height: 100%;
 }
 
-#code-output {
+#code-editor {
     flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace; /* Mantendo fonte monoespaçada para o editor de código */
     background-color: var(--bg-color-lighter);
     color: var(--text-color);
     border: 1px solid var(--border-color);
