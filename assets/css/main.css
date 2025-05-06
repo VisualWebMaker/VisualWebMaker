@@ -1,12 +1,14 @@
 /* Reset básico e tema escuro */
 :root {
-    --bg-color: #18191b;
-    --bg-card: #121213;
-    --bg-color-light: #2a2b2e;
-    --bg-color-lighter: #393b3f;
+    --titlebar-color: rgba(18, 18, 19, 0.7);
+    --main-sidebar: rgba(30, 32, 43, 0.7);
+    --bg-color: rgba(24, 25, 27, 0.7);
+    --bg-card: rgba(18, 18, 19, 0.7);
+    --bg-color-light: rgba(42, 43, 46, 0.7);
+    --bg-color-lighter: rgba(57, 59, 63, 0.7);
     --text-color: #e0e2e6;
     --text-color-light: #d5d7dd;
-    --border-color: #4a4f5a;
+    --border-color: #282B3B;
     --accent-color: #61afef;
     --selected-bg: #4b5263;
     --selected-border: var(--accent-color);
@@ -21,14 +23,21 @@
 }
 
 body {
-    font-family: sans-serif;
     margin: 0;
-    background-color: var(--bg-color);
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-color);
-    display: flex;
+    background-color: transparent;
+    overflow: hidden;
     height: 100vh;
-    overflow: hidden; /* Evita scroll no body principal */
-    
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+/* Adiciona um fundo gradiente para melhorar o efeito de vidro */
+html {
+    background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
 }
 
 /* Layout Geral */
@@ -36,36 +45,10 @@ body {
     display: flex;
     width: 100%;
     height: 100%;
-}
-
-.sidebar-left,
-.sidebar-right {
-    width: 250px;
-    background-color: var(--bg-card);
-    padding: 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-.sidebar-right {
-    border-right: none;
-    border-left: 1px solid var(--border-color);
-}
-
-.sidebar-right .settingDiv {
-    padding: 10px;
-    background: #000;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-}
-
-.sidebar-right .settingDiv label {
-    color: var(--text-color-light);
-    font-weight: bold;
-    margin-bottom: 5px;
+    background-color: rgba(24, 25, 27, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding-top: 50px;
 }
 
 .main-content {
@@ -99,6 +82,7 @@ h2 .material-icons {
     list-style: none;
     padding: 0;
     margin: 0 0 20px 0;
+    display: flex;
 }
 
 #tag-list li {
@@ -121,15 +105,15 @@ h2 .material-icons {
 
 /* Árvore DOM */
 .dom-tree-view {
-    margin-top: 20px;
-    flex-grow: 1; /* Ocupa espaço restante */
+    /* margin-top: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     background-color: var(--bg-color);
-    padding: 8px;
+    padding: 8px; */
 }
 
 #dom-tree {

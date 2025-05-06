@@ -29,5 +29,16 @@ contextBridge.exposeInMainWorld('electron', {
     fechar: () => ipcRenderer.send('window-close'),
     isMaximizado: () => ipcRenderer.invoke('window-is-maximized'),
     obterTitulo: () => ipcRenderer.invoke('get-window-title')
+  },
+  // Funções para o explorador de arquivos
+  arquivos: {
+    abrirDiretorio: () => ipcRenderer.send('open-directory'),
+    listarDiretorio: (caminho) => ipcRenderer.invoke('list-directory', caminho),
+    obterDiretorioAtual: () => ipcRenderer.invoke('get-current-directory'),
+    abrirArquivo: (caminho) => ipcRenderer.invoke('open-file', caminho)
+  },
+  // Recebe eventos do explorador de arquivos
+  receberArquivos: {
+    diretorioAberto: (callback) => ipcRenderer.on('directory-opened', callback)
   }
 });

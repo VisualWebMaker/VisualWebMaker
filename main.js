@@ -12,7 +12,10 @@ function createWindow() {
     height: 800,
     frame: false, // Remove a barra de título padrão
     titleBarStyle: 'hidden', // Oculta a barra de título padrão
-    backgroundColor: '#1e1e1e', // Cor de fundo similar ao VSCode
+    transparent: true, // Habilita a transparência da janela
+    backgroundColor: '#1e1e1e00', // Cor de fundo com transparência
+    vibrancy: 'under-window', // Adiciona efeito de vibrancy (macOS)
+    visualEffectState: 'active', // Estado do efeito visual (macOS)
     webPreferences: {
       nodeIntegration: false, // Por segurança, desabilita a integração Node.js no renderer
       contextIsolation: true, // Isola o contexto do Electron do contexto da página
@@ -128,26 +131,82 @@ function createMenu() {
   Menu.setApplicationMenu(menu);
 }
 
-// Função para abrir um projeto
+// Abre um projeto existente
 function openProject() {
   dialog.showOpenDialog(mainWindow, {
     title: 'Abrir Projeto',
-    filters: [{ name: 'Projetos HTML', extensions: ['html'] }],
+    filters: [
+      { name: 'Arquivos HTML', extensions: ['html'] }
+    ],
     properties: ['openFile']
   }).then(result => {
     if (!result.canceled && result.filePaths.length > 0) {
       const filePath = result.filePaths[0];
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-          dialog.showErrorBox('Erro ao abrir arquivo', 'Não foi possível abrir o arquivo selecionado.');
+          dialog.showErrorBox('Erro ao Abrir Projeto', `Não foi possível abrir o arquivo: ${err.message}`);
           return;
         }
         mainWindow.webContents.send('load-project', { filePath, content: data });
       });
     }
   }).catch(err => {
-    dialog.showErrorBox('Erro', 'Ocorreu um erro ao tentar abrir o arquivo.');
+    dialog.showErrorBox('Erro ao Abrir Projeto', `Ocorreu um erro: ${err.message}`);
   });
+}
+
+// Variável para armazenar o diretório atual
+let currentDirectory = null;
+
+// Abre um diretório para o explorador de arquivos
+function openDirectory() {
+  dialog.showOpenDialog(mainWindow, {
+    title: 'Abrir Diretório',
+    properties: ['openDirectory']
+  }).then(result => {
+    if (!result.canceled && result.filePaths.length > 0) {
+      const dirPath = result.filePaths[0];
+      currentDirectory = dirPath;
+      mainWindow.webContents.send('directory-opened', dirPath);
+    }
+  }).catch(err => {
+    dialog.showErrorBox('Erro ao Abrir Diretório', `Ocorreu um erro: ${err.message}`);
+  });
+}
+
+// Lista os arquivos e diretórios em um caminho específico
+async function listDirectory(dirPath) {
+  try {
+    const items = await fs.promises.readdir(dirPath, { withFileTypes: true });
+    const result = [];
+    
+    for (const item of items) {
+      const isDirectory = item.isDirectory();
+      const itemPath = path.join(dirPath, item.name);
+      
+      result.push({
+        name: item.name,
+        path: itemPath,
+        isDirectory: isDirectory
+      });
+    }
+    
+    return result;
+  } catch (err) {
+    console.error('Erro ao listar diretório:', err);
+    return [];
+  }
+}
+
+// Lê o conteúdo de um arquivo
+async function openFile(filePath) {
+  try {
+    const content = await fs.promises.readFile(filePath, 'utf8');
+    return content;
+  } catch (err) {
+    console.error('Erro ao abrir arquivo:', err);
+    return null;
+  }
 }
 
 // Evento disparado quando o Electron termina a inicialização
@@ -190,6 +249,23 @@ ipcMain.handle('window-is-maximized', () => {
 
 ipcMain.handle('get-window-title', () => {
   return 'Visual Web Maker';
+});
+
+// Manipuladores para o explorador de arquivos
+ipcMain.on('open-directory', () => {
+  openDirectory();
+});
+
+ipcMain.handle('list-directory', async (event, dirPath) => {
+  return await listDirectory(dirPath);
+});
+
+ipcMain.handle('get-current-directory', () => {
+  return currentDirectory;
+});
+
+ipcMain.handle('open-file', async (event, filePath) => {
+  return await openFile(filePath);
 });
 
 // Configuração dos eventos IPC para comunicação entre processos

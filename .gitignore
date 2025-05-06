@@ -42,3 +42,4 @@ coverage/
 
 # Arquivos específicos do Electron
 out/
+bash.exe.stackdump

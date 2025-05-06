@@ -1209,3 +1209,4 @@ function formatHtml(html) {
     // Por enquanto, retornamos o HTML bruto para garantir funcionalidade.
     // return previewDocument.body.innerHTML; // Retorna bruto temporariamente
 }
+

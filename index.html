@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com">
     <title>Visual Web Maker</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <link rel="stylesheet" href="assets/titlebar.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/titlebar.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
-    <script src="assets/titlebar.js"></script>
+    <script src="assets/js/titlebar.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/file-explorer.js"></script>
 </head>
 <body>
     <!-- Barra de título personalizada estilo VSCode -->
@@ -31,33 +34,65 @@
             </button>
         </div>
     </div>
-    <div class="editor-container">
-        <aside class="sidebar-left">
-            <h2><i class="material-icons">code</i> Tags HTML</h2>
-            <ul id="tag-list">
-                <li draggable="true" data-tag="div" data-editable-text="true">Div Padrão</li>
-                <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
-                <li draggable="true" data-tag="h1">H1</li>
-                <li draggable="true" data-tag="p" data-editable-text="true">Parágrafo</li>
-                <li draggable="true" data-tag="input">Input Texto</li>
-                <li draggable="true" data-tag="input" data-type="checkbox">Input Checkbox</li>
-                <li draggable="true" data-tag="input" data-type="radio" data-name="grupo-radio">Input Radio</li>
-                <li draggable="true" data-tag="button">Botão</li>
-                <li draggable="true" data-tag="form">Form</li>
-                <li draggable="true" data-tag="img" data-editable-src="true" data-editable-alt="true">Imagem</li>
-            </ul>
 
-            <div class="dom-tree-view"> <!-- Novo: Container da Árvore DOM -->
-                <h2><i class="material-icons">account_tree</i> Estrutura DOM</h2>
+    <div class="editor-container">
+        <div class="main-sidebar">
+            <button id="open-directory-button" class="action-button">
+                <img src="assets/icons/folder.svg" alt="">
+                <span class="legend">Abrir Diretório</span>
+            </button>
+        </div>
+        <aside class="sidebar-left">
+
+            <div class="sidebar-section">
+                <sidebar-title>
+                    <span>Explorador</span>
+                    <img src="assets/chevron-down.svg" alt="">
+                </sidebar-title>
+                <div class="file-explorer">
+                    <div class="file-explorer-content">
+                        <ul id="file-tree"></ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <sidebar-title>
+                    <span>Explorador</span>
+                    <img src="assets/chevron-down.svg" alt="">
+                </sidebar-title>
+                <ul id="tag-list">
+                    <li draggable="true" data-tag="div" data-editable-text="true">Div Padrão</li>
+                    <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
+                    <li draggable="true" data-tag="h1">H1</li>
+                    <li draggable="true" data-tag="p" data-editable-text="true">Parágrafo</li>
+                    <li draggable="true" data-tag="input">Input Texto</li>
+                    <li draggable="true" data-tag="input" data-type="checkbox">Input Checkbox</li>
+                    <li draggable="true" data-tag="input" data-type="radio" data-name="grupo-radio">Input Radio</li>
+                    <li draggable="true" data-tag="button">Botão</li>
+                    <li draggable="true" data-tag="form">Form</li>
+                    <li draggable="true" data-tag="img" data-editable-src="true" data-editable-alt="true">Imagem</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section dom-tree-view"> <!-- Container da Árvore DOM -->
+                <sidebar-title>
+                    <span>DOM</span>
+                    <img src="assets/chevron-down.svg" alt="">
+                </sidebar-title>
                 <ul id="dom-tree"></ul>
             </div>
         </aside>
 
         <main class="main-content">
             <div class="tab-controls">
-                <button class="tab-button active" data-tab="preview-tab"><i class="material-icons">visibility</i> Preview</button>
-                <button class="tab-button" data-tab="code-tab"><i class="material-icons">integration_instructions</i> Código</button>
-                <button id="open-external-preview" style="margin-left: auto;"><i class="material-icons">open_in_new</i> Abrir Preview Externo</button>
+                <button class="tab-button active" data-tab="preview-tab">
+                    <i class="material-icons">visibility</i> Preview
+                </button>
+                <button class="tab-button" data-tab="code-tab">
+                    <i class="material-icons">integration_instructions</i> Código
+                </button>
+                <!-- <button id="open-external-preview" style="margin-left: auto;"><i class="material-icons">open_in_new</i> Abrir Preview Externo</button> -->
             </div>
             <div class="tab-content">
                 <div id="preview-tab" class="tab-pane active">
@@ -86,6 +121,6 @@
         </aside>
     </div>
 
-    <script src="assets/script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

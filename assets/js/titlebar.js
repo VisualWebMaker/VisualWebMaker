@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //     }
         // };
 
-        atualizarTitulo();
+        // atualizarTitulo();
     } else {
         // Se não estamos no Electron, esconde a barra de título
         document.querySelector('.titlebar').style.display = 'none';

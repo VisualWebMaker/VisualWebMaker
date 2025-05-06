@@ -1,0 +1,212 @@
+.main-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 60px;
+    background: var(--main-sidebar);
+    border-right: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.main-sidebar .action-button {
+    position: relative;
+    background: none;
+    border: none;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color-light);
+    outline: none;
+    cursor: pointer;
+}
+
+.main-sidebar .action-button .legend {
+    display: none;
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+.main-sidebar .action-button:hover .legend {
+    display: block;
+    position: absolute;
+    left: calc(100%);
+    background: var(--text-color);
+    border: solid 1px var(--border-color);
+    color: var(--bg-card);
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 14px;
+    padding: 5px 10px;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Sidebar */
+.sidebar-left,
+.sidebar-right {
+    width: 250px;
+    background-color: var(--bg-card);
+    padding: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.sidebar-section {
+    padding: 10px 0;
+    border-top: solid 1px var(--border-color);
+    overflow: hidden;
+}
+.sidebar-section.collapsed {
+    height: 30px;
+    padding: 10px 0;
+    border-top: solid 1px var(--border-color);
+}
+
+.sidebar-section sidebar-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-color-light);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* Explorador de Arquivos */
+.file-explorer {
+    background-color: var(--bg-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.file-explorer-header {
+    background-color: var(--bg-color-lighter);
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-color-light);
+}
+
+.file-explorer-content {
+    padding: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#file-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#file-tree li {
+    padding: 3px 10px 3px 5px;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    display: block;
+    width: 100%;
+
+}
+
+#file-tree li:hover {
+    background-color: var(--hover-bg);
+}
+#file-tree li.expanded:hover {
+    background-color: none;
+}
+
+#file-tree li .file-icon {
+    float: left;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    margin: 0 5px;
+}
+
+#file-tree li span {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 42px);
+}
+
+#file-tree li::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    float: left;
+    background-size: 100%;
+}
+#file-tree li.directory::before {
+    background-image: url('../images/chevron-left.png');
+}
+#file-tree li.file::before {
+    background-image: url('../images/nofolder.png');
+}
+#file-tree li.directory.expanded::before {
+    background-image: url('../images/chevron-down.png');
+}
+
+#file-tree ul {
+    list-style: none;
+    padding-left: 15px;
+    margin: 0;
+    display: none;
+}
+
+#file-tree li.expanded > ul {
+    display: block;
+}
+
+#file-tree li.selected {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.sidebar-right {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+.sidebar-right .settingDiv {
+    padding: 10px;
+    background: #000;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.sidebar-right .settingDiv label {
+    color: var(--text-color-light);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
