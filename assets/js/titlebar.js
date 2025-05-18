@@ -1,6 +1,56 @@
 // Script para controlar a barra de título personalizada
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Detecta se o sistema operacional é macOS
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    
+    // Adiciona classe ao body se for macOS
+    if (isMac) {
+        document.body.classList.add('is-mac');
+    }
+    
+    // Função para verificar e atualizar o estado maximizado
+    const atualizarEstadoMaximizado = async () => {
+        if (window.electron && window.electron.janela) {
+            try {
+                const isMaximizado = await window.electron.janela.isMaximizado();
+                console.log('Estado maximizado:', isMaximizado); // Log para depuração
+                if (isMaximizado) {
+                    document.body.classList.add('is-maximized');
+                } else {
+                    document.body.classList.remove('is-maximized');
+                }
+                // Verifica se a classe foi aplicada corretamente
+                console.log('Classe is-maximized aplicada:', document.body.classList.contains('is-maximized'));
+            } catch (error) {
+                console.error('Erro ao verificar estado maximizado:', error);
+            }
+        }
+    };
+    
+    // Verifica o estado inicial
+    atualizarEstadoMaximizado();
+    
+    // Adiciona listeners para eventos de maximização e restauração da janela
+    if (window.electron) {
+        window.addEventListener('resize', () => {
+            // Atualiza o estado maximizado quando a janela é redimensionada
+            setTimeout(atualizarEstadoMaximizado, 50);
+        });
+        
+        // Adiciona listener para eventos de tela cheia (fullscreen)
+        if (window.electron.janela.onFullscreenMudou) {
+            window.electron.janela.onFullscreenMudou((isFullscreen) => {
+                console.log('Estado de tela cheia:', isFullscreen);
+                if (isFullscreen) {
+                    document.body.classList.add('is-fullscreen');
+                } else {
+                    document.body.classList.remove('is-fullscreen');
+                }
+            });
+        }
+    }
+    
     // Referências aos botões da barra de título
     const minimizeButton = document.getElementById('minimize-button');
     const maximizeButton = document.getElementById('maximize-button');
@@ -29,8 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         maximizeButton.addEventListener('click', () => {
             window.electron.janela.maximizar();
-            // Atualiza o ícone após um pequeno delay para garantir que o estado da janela foi alterado
-            setTimeout(atualizarIconeMaximizar, 100);
+            // Atualiza o ícone e o estado maximizado após um pequeno delay para garantir que o estado da janela foi alterado
+            setTimeout(() => {
+                atualizarIconeMaximizar();
+                atualizarEstadoMaximizado();
+            }, 200); // Aumentado o tempo de espera para garantir que a janela tenha tempo de mudar de estado
         });
 
         closeButton.addEventListener('click', () => {

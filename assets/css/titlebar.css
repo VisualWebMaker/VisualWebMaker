@@ -16,6 +16,7 @@
     z-index: 9999;
     /* border-bottom: 1px solid var(--border-color); */
     overflow: hidden;
+    box-sizing: border-box; /* Garante que padding não afete a altura total */
 }
 
 .titlebar .logo {
@@ -64,10 +65,26 @@
 }
 
 .titlebar-controls {
-
     display: flex;
     justify-self: end;
     -webkit-app-region: no-drag; /* Permite clicar nos controles */
+}
+
+/* Estilos específicos para macOS */
+body.is-mac .titlebar {
+    padding-left: 80px; /* Espaço para os controles nativos do macOS (semáforos) */
+    padding-top: 4px; /* Ajuste vertical para os controles nativos do macOS */
+    height: 45px; /* Mantém a altura total da barra de título */
+}
+
+/* Remove o padding quando estiver maximizado no macOS */
+body.is-mac.is-maximized .titlebar {
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+}
+
+body.is-mac .titlebar-controls {
+    display: none; /* Oculta os botões de controle do Windows no macOS */
 }
 
 .titlebar-button {

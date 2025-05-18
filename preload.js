@@ -28,6 +28,18 @@ contextBridge.exposeInMainWorld('electron', {
     maximizar: () => ipcRenderer.send('window-maximize'),
     fechar: () => ipcRenderer.send('window-close'),
     isMaximizado: () => ipcRenderer.invoke('window-is-maximized'),
+        // Adiciona um evento para detectar mudanças no estado da janela
+        onMaximizacaoMudou: (callback) => {
+          ipcRenderer.on('window-maximization-changed', (event, isMaximizado) => {
+            callback(isMaximizado);
+          });
+        },
+        // Adiciona um evento para detectar mudanças no estado de tela cheia
+        onFullscreenMudou: (callback) => {
+          ipcRenderer.on('window-fullscreen-changed', (event, isFullscreen) => {
+            callback(isFullscreen);
+          });
+        },
     obterTitulo: () => ipcRenderer.invoke('get-window-title')
   },
   // Funções para o explorador de arquivos

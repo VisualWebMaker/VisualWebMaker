@@ -37,6 +37,24 @@ function createWindow() {
     mainWindow = null;
   });
 
+  // Adiciona listeners para eventos de maximização e restauração
+  mainWindow.on('maximize', () => {
+    mainWindow.webContents.send('window-maximization-changed', true);
+  });
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('window-maximization-changed', false);
+  });
+  
+  // Adiciona listeners para eventos de tela cheia (fullscreen)
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('window-fullscreen-changed', true);
+  });
+
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('window-fullscreen-changed', false);
+  });
+
   // Cria o menu da aplicação
   createMenu();
 }
@@ -232,11 +250,17 @@ ipcMain.on('window-maximize', () => {
   if (mainWindow) {
     if (mainWindow.isMaximized()) {
       mainWindow.unmaximize();
+      // Emite evento informando que a janela não está mais maximizada
+      mainWindow.webContents.send('window-maximization-changed', false);
     } else {
       mainWindow.maximize();
+      // Emite evento informando que a janela está maximizada
+      mainWindow.webContents.send('window-maximization-changed', true);
     }
   }
 });
+
+
 
 ipcMain.on('window-close', () => {
   if (mainWindow) mainWindow.close();

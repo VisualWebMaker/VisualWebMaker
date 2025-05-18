@@ -50,6 +50,18 @@ body {
     margin-top: 40px;
 }
 
+/* Estilos para quando a janela está em modo de tela cheia */
+body.is-fullscreen {
+    margin-top: 0; /* Remove a margem superior quando em tela cheia */
+    height: 100vh; /* Ajusta a altura para ocupar toda a tela */
+}
+
+/* Ajusta a barra de título quando em tela cheia */
+body.is-fullscreen .titlebar {
+    opacity: 0; /* Esconde a barra de título em modo de tela cheia */
+    pointer-events: none; /* Desativa interações com a barra de título */
+}
+
 /* Adiciona um fundo gradiente para melhorar o efeito de vidro */
 html {
     background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
