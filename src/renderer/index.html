@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net">
     <title>Visual Web Maker</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/titlebar.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="../renderer/css/main.css">
+    <link rel="stylesheet" href="../renderer/css/titlebar.css">
+    <link rel="stylesheet" href="../renderer/css/sidebar.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/ace.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/mode-html.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.23.4/src-min-noconflict/theme-monokai.js"></script>
-    <script src="assets/js/titlebar.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/file-explorer.js"></script>
+    <script src="../renderer/js/titlebar.js"></script>
+    <script src="../renderer/js/sidebar.js"></script>
+    <script src="../renderer/js/file-explorer.js"></script>
 </head>
 <body>
     <!-- Barra de título personalizada estilo VSCode -->
     <div class="titlebar">
         <div class="titlebar-title">
             <div class="logo">
-                <img src="assets/images/logo.svg" alt="">
+                <img src="../renderer/images/logo.svg" alt="">
             </div>
         </div>
 
@@ -44,7 +44,7 @@
     <div class="editor-container">
         <div class="main-sidebar">
             <button id="open-directory-button" class="action-button">
-                <img src="assets/icons/folder.svg" alt="">
+                <img src="../renderer/icons/folder.svg" alt="">
                 <span class="legend">Abrir Diretório</span>
             </button>
         </div>
@@ -53,7 +53,7 @@
             <div class="sidebar-section">
                 <sidebar-title>
                     <span>Explorador</span>
-                    <img src="assets/chevron-down.svg" alt="">
+                    <img src="../renderer/images/chevron-down.svg" alt="">
                 </sidebar-title>
                 <div class="file-explorer">
                     <div class="file-explorer-content">
@@ -65,21 +65,21 @@
             <div class="sidebar-section">
                 <sidebar-title>
                     <span>Tags</span>
-                    <img src="assets/chevron-down.svg" alt="">
+                    <img src=../renderer/images/chevron-down.svg" alt="">
                 </sidebar-title>
                 <ul id="tag-list">
                     <li class="separator" draggable="false">Forms</li>
-                    <li draggable="true" data-tag="label"><img src="assets/images/input-icon-placeholder.svg"> label</li>
-                    <li draggable="true" data-tag="input" data-type="text"><img src="assets/images/input-icon-placeholder.svg"> Campo de Texto</li>
-                    <li draggable="true" data-tag="input" data-type="password"><img src="assets/images/input-icon-placeholder.svg"> Campo de Senha</li>
-                    <li draggable="true" data-tag="input" data-type="number"><img src="assets/images/input-icon-placeholder.svg"> Campo Numérico</li>
-                    <li draggable="true" data-tag="input" data-type="checkbox"><img src="assets/images/input-icon-placeholder.svg"> Input Checkbox</li>
-                    <li draggable="true" data-tag="input" data-type="radio"><img src="assets/images/input-icon-placeholder.svg"> Input Checkbox</li>
-                    <li draggable="true" data-tag="button"><img src="assets/images/input-icon-placeholder.svg">Botão</li>
+                    <li draggable="true" data-tag="label"><img src="../renderer/images/input-icon-placeholder.svg"> label</li>
+                    <li draggable="true" data-tag="input" data-type="text"><img src="../renderer/images/input-icon-placeholder.svg"> Campo de Texto</li>
+                    <li draggable="true" data-tag="input" data-type="password"><img src="../renderer/images/input-icon-placeholder.svg"> Campo de Senha</li>
+                    <li draggable="true" data-tag="input" data-type="number"><img src="../renderer/images/input-icon-placeholder.svg"> Campo Numérico</li>
+                    <li draggable="true" data-tag="input" data-type="checkbox"><img src="../renderer/images/input-icon-placeholder.svg"> Input Checkbox</li>
+                    <li draggable="true" data-tag="input" data-type="radio"><img src="../renderer/images/input-icon-placeholder.svg"> Input Checkbox</li>
+                    <li draggable="true" data-tag="button"><img src="../renderer/images/input-icon-placeholder.svg">Botão</li>
                     <li class="separator" draggable="false">Content</li>
-                    <li draggable="true" data-tag="div" data-editable-text="true"><img src="assets/images/input-icon-placeholder.svg">DIV</li>                    <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
-                    <li draggable="true" data-tag="h1"><img src="assets/images/input-icon-placeholder.svg">H1</li>
-                    <li draggable="true" data-tag="p" data-editable-text="true"><img src="assets/images/input-icon-placeholder.svg">Parágrafo</li>
+                    <li draggable="true" data-tag="div" data-editable-text="true"><img src="../renderer/images/input-icon-placeholder.svg">DIV</li>                    <li draggable="true" data-tag="div" data-class="container" data-editable-text="true">Div com Classe</li>
+                    <li draggable="true" data-tag="h1"><img src="../renderer/images/input-icon-placeholder.svg">H1</li>
+                    <li draggable="true" data-tag="p" data-editable-text="true"><img src="../renderer/images/input-icon-placeholder.svg">Parágrafo</li>
                     <li draggable="true" data-tag="form">Form</li>
                     <li draggable="true" data-tag="img" data-editable-src="true" data-editable-alt="true">Imagem</li>
                 </ul>
@@ -88,7 +88,7 @@
             <div class="sidebar-section dom-tree-view"> <!-- Container da Árvore DOM -->
                 <sidebar-title>
                     <span>DOM</span>
-                    <img src="assets/chevron-down.svg" alt="">
+                    <img src="../renderer/images/chevron-down.svg" alt="">
                 </sidebar-title>
                 <ul id="dom-tree"></ul>
             </div>
@@ -97,12 +97,15 @@
         <main class="main-content">
 
             <div class="tab-controls">
-                <button class="tab-button active" data-tab="preview-tab">
-                    Visual
-                </button>
-                <button class="tab-button" data-tab="code-tab">
-                    Code
-                </button>
+                <div class="code-switch">
+                    <span class="code-switch-label">Visual</span>
+                    <label class="switch">
+                        <input type="checkbox" id="code-toggle">
+                        <span class="slider round">
+                            <i class="material-icons code-icon">code</i>
+                        </span>
+                    </label>
+                </div>
                 <!-- <button id="open-external-preview" style="margin-left: auto;"><i class="material-icons">open_in_new</i> Abrir Preview Externo</button> -->
             </div>
             
@@ -128,7 +131,7 @@
             <div class="sidebar-section">
                 <sidebar-title>
                     <span>Parametros</span>
-                    <img src="assets/chevron-down.svg" alt="">
+                    <img src="../renderer/images/chevron-down.svg" alt="">
                 </sidebar-title>
                 <div id="settings-panel">
                     <p style="text-align: center; padding: 20px;">Selecione um elemento para configurar.</p>
@@ -137,6 +140,6 @@
         </aside>
     </div>
 
-    <script src="assets/js/script.js"></script>
+    <script src="../renderer/js/script.js"></script>
 </body>
 </html>

@@ -19,13 +19,13 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false, // Por segurança, desabilita a integração Node.js no renderer
       contextIsolation: true, // Isola o contexto do Electron do contexto da página
-      preload: path.join(__dirname, 'preload.js') // Carrega o script de preload
+      preload: path.join(__dirname, '../preload/preload.js') // Carrega o script de preload
     },
-    icon: path.join(__dirname, 'assets/icon.png')
+    icon: path.join(__dirname, '../../assets/icon.png')
   });
 
   // Carrega o arquivo index.html da aplicação
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
 
   // Abre o DevTools em modo de desenvolvimento
   if (process.argv.includes('--dev')) {

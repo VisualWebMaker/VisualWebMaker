@@ -9,6 +9,20 @@
 
 </div>
 
+## 📁 Project Structure
+
+```
+VisualWebMaker/
+├── assets/            # Static resources (images, icons, fonts)
+├── src/               # Application source code
+│   ├── main/          # Electron main process
+│   ├── preload/       # Electron preload scripts
+│   └── renderer/      # User interface (HTML, CSS, JS)
+├── tests/             # Automated tests
+├── package.json       # Project settings
+└── README.md          # Documentation
+```
+
 ## 📋 About the Project
 
 VisualWebMaker is an open source tool that allows you to create web pages visually through an intuitive drag and drop interface. Designed to facilitate web development for both beginners and experienced developers, eliminating the need to write HTML code manually.

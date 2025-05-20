@@ -18,10 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         enableLiveAutocompletion: true,
         wrap: true
     });
-    const domTreeContainer = document.getElementById('dom-tree'); // Novo: Container da árvore DOM
-    const tabButtons = document.querySelectorAll('.tab-button'); // Novo: Botões das abas
-    const tabPanes = document.querySelectorAll('.tab-pane'); // Novo: Painéis das abas
-    const openExternalPreviewButton = document.getElementById('open-external-preview'); // Novo: Botão preview externo
+    const domTreeContainer = document.getElementById('dom-tree'); // Container da árvore DOM
+    const tabPanes = document.querySelectorAll('.tab-pane'); // Painéis das abas
+    const openExternalPreviewButton = document.getElementById('open-external-preview'); // Botão preview externo
 
     let selectedElement = null;
     let elementCounter = {}; // Para gerar IDs únicos
@@ -47,22 +46,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const previewBody = previewDocument.body;
 
-    // --- Lógica das Abas --- //
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove 'active' de todos os botões e painéis
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabPanes.forEach(pane => pane.classList.remove('active'));
-
-            // Adiciona 'active' ao botão clicado e ao painel correspondente
-            button.classList.add('active');
-            const targetTabId = button.getAttribute('data-tab');
-            const targetPane = document.getElementById(targetTabId);
-            if (targetPane) {
-                targetPane.classList.add('active');
+    // --- Lógica do Switch de Código --- //
+    const codeToggle = document.getElementById('code-toggle');
+    const codeLabel = document.querySelector('.code-switch-label');
+    const previewTab = document.getElementById('preview-tab');
+    const codeTab = document.getElementById('code-tab');
+    
+    codeToggle.addEventListener('change', () => {
+        if (codeToggle.checked) {
+            // Modo código
+            previewTab.classList.remove('active');
+            codeTab.classList.add('active');
+            codeLabel.textContent = 'Código';
+            // Atualiza o código com o conteúdo atual do preview
+            updateCodeOutput();
+        } else {
+            // Modo visual
+            codeTab.classList.remove('active');
+            previewTab.classList.add('active');
+            codeLabel.textContent = 'Visual';
+            // Garante que o preview esteja atualizado com o código atual
+            try {
+                const code = codeEditor.getValue();
+                updatePreviewFromCode(code);
+            } catch (error) {
+                console.error('Erro ao atualizar preview:', error);
             }
-        });
+        }
     });
+
 
     // --- Botão Preview Externo --- //
     // openExternalPreviewButton.addEventListener('click', () => {

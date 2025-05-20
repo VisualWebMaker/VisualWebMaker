@@ -2,7 +2,7 @@
   "name": "visual-web-maker",
   "version": "0.1.1",
   "description": "Editor visual de HTML com interface de arrastar e soltar",
-  "main": "main.js",
+  "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
@@ -35,7 +35,11 @@
       "output": "dist"
     },
     "files": [
-      "**/*",
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "LICENSE",
+      "README.md",
       "!dist/**/*",
       "!build/**/*",
       "!node_modules/**/*"

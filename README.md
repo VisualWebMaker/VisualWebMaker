@@ -13,6 +13,11 @@
 
 O VisualWebMaker é uma ferramenta open source que permite criar páginas web de forma visual através de uma interface intuitiva de arrastar e soltar. Projetado para facilitar o desenvolvimento web tanto para iniciantes quanto para desenvolvedores experientes, eliminando a necessidade de escrever código HTML manualmente.
 
+## 🖼️ Preview do Projeto
+
+<div align="center">
+<img src="doc/preview.png" alt="Preview do VisualWebMaker" width="800">
+</div>
 ## ✨ Funcionalidades
 
 - **Interface de Arrastar e Soltar**: Crie elementos HTML facilmente arrastando componentes para a área de preview
@@ -22,6 +27,20 @@ O VisualWebMaker é uma ferramenta open source que permite criar páginas web de
 - **Exportação de Código**: Copie ou baixe o código HTML gerado para usar em seus projetos
 - **Preview Externo**: Visualize sua criação em uma nova janela para testar em tamanho real
 - **Aplicativo Desktop**: Utilize como aplicativo desktop multiplataforma graças ao Electron
+
+## 📁 Estrutura do Projeto
+
+```
+VisualWebMaker/
+├── assets/            # Recursos estáticos (imagens, ícones, fontes)
+├── src/               # Código-fonte da aplicação
+│   ├── main/          # Processo principal do Electron
+│   ├── preload/       # Scripts de preload do Electron
+│   └── renderer/      # Interface do usuário (HTML, CSS, JS)
+├── tests/             # Testes automatizados
+├── package.json       # Configurações do projeto
+└── README.md          # Documentação
+```
 
 ## 🚀 Como Usar
 

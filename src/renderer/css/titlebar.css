@@ -31,15 +31,15 @@
     width: 36px;
 }
 
-/* .titlebar-title {
-    margin-left: 10px;
+.titlebar-title {
+    margin-left: 0;
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
-} */
+}
 
 .titlebar-action-button {
     background-color: rgba(255, 255, 255, 0.1);

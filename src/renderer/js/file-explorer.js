@@ -54,23 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (extension) {
             case 'html':
             case 'htm':
-                return 'assets/icons/explorer/html.png';
+                return '../renderer/icons/explorer/html.png';
             case 'php':
-                return 'assets/icons/explorer/php.png';
+                return '../renderer/icons/explorer/php.png';
             case 'css':
-                return 'assets/icons/explorer/css.png';
+                return '../renderer/icons/explorer/css.png';
             case 'js':
-                return 'assets/icons/explorer/js.png';
+                return '../renderer/icons/explorer/js.png';
             case 'svg':
-                return 'assets/icons/explorer/svg.png';
+                return '../renderer/icons/explorer/svg.png';
             case 'png':
             case 'jpg':
             case 'jpeg':
             case 'gif':
             case 'webp':
-                return 'assets/icons/explorer/img.png';
+                return '../renderer/icons/explorer/img.png';
             default:
-                return 'assets/icons/explorer/file.png';
+                return '../renderer/icons/explorer/file.png';
         }
     }
 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Adiciona o ícone apropriado
                 if (item.isDirectory) {
-                    iconImg.src = 'assets/icons/explorer/folder.png';
+                    iconImg.src = '../renderer/icons/explorer/folder.png';
                     li.classList.add('directory');
                     li.addEventListener('click', toggleDirectory);
                 } else {
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Adiciona o ícone apropriado
                 if (item.isDirectory) {
-                    iconImg.src = 'assets/icons/explorer/folder.png';
+                    iconImg.src = '../renderer/icons/explorer/folder.png';
                     childLi.classList.add('directory');
                     childLi.addEventListener('click', toggleDirectory);
                 } else {
