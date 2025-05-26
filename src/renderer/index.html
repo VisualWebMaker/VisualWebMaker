@@ -130,11 +130,77 @@
         <aside class="sidebar-right">
             <div class="sidebar-section">
                 <sidebar-title>
-                    <span>Parametros</span>
+                    <span>Estilo</span>
                     <img src="../renderer/images/chevron-down.svg" alt="">
                 </sidebar-title>
                 <div id="settings-panel">
-                    <p style="text-align: center; padding: 20px;">Selecione um elemento para configurar.</p>
+                    <div class="settings-group">
+                        <h3>Imagem</h3>
+                        <div class="setting-item">
+                            <label>Origem</label>
+                            <div class="setting-control">
+                                <button class="image-upload-btn"><i class="material-icons">upload</i></button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>Disposição</label>
+                            <div class="setting-control">
+                                <select class="style-select">
+                                    <option>contain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>Fundo</label>
+                            <div class="setting-control color-picker">
+                                <input type="color" value="#8845e5">
+                                <span class="color-value">#8845e5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Tamanho e posição</h3>
+                        <div class="setting-item">
+                            <label>Tamanho</label>
+                            <div class="setting-control size-control">
+                                <input type="text" value="100%" class="size-input">
+                                <input type="text" value="200px" class="size-input">
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>Alinhamento</label>
+                            <div class="setting-control alignment-control">
+                                <button class="align-btn"><i class="material-icons">format_align_center</i></button>
+                                <button class="align-btn"><i class="material-icons">format_align_center</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Margem e espaçamento</h3>
+                        <div class="setting-item">
+                            <div class="margin-control">
+                                <div class="margin-grid">
+                                    <input type="text" value="10" class="margin-input">
+                                    <input type="text" value="10" class="margin-input">
+                                    <input type="text" value="10" class="margin-input">
+                                    <input type="text" value="10" class="margin-input">
+                                    <div class="margin-inner">10</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <sidebar-title>
+                    <span>Interações</span>
+                    <img src="../renderer/images/chevron-down.svg" alt="">
+                </sidebar-title>
+                <div id="interactions-panel">
+                    <p style="text-align: center; padding: 20px;">Selecione um elemento para configurar interações.</p>
                 </div>
             </div>
         </aside>

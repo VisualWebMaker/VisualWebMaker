@@ -1,5 +1,5 @@
 /* Importação da fonte Inter */
-@font-face {
+/* @font-face {
     font-family: 'Inter';
     src: url('../fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
     font-weight: 100 900;
@@ -11,24 +11,26 @@
     src: url('../fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
     font-weight: 100 900;
     font-style: italic;
-}
+} */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 /* Reset básico e tema escuro */
 :root {
-    --titlebar-color: rgb(44, 44, 49);
-    --main-sidebar: rgba(47, 50, 63, 1);
-    --bg-color: rgba(24, 25, 27, 1);
-    --bg-card: rgb(26, 26, 29);
-    --bg-color-light: rgba(42, 43, 46, 1);
-    --bg-color-lighter: rgba(57, 59, 63, 1);
+    --titlebar-color: rgb(20, 21, 26);
+    --main-sidebar: rgb(20, 21, 26);
+    --bg-color: rgb(20, 21, 26);
+    --bg-card: rgb(20, 21, 26);
+    --bg-color-light: rgb(30, 31, 36);
+    --bg-color-lighter: rgb(40, 41, 46);
     --text-color: #e0e2e6;
     --text-color-light: #d5d7dd;
-    --border-color: #494b58;
-    --accent-color: #61afef;
-    --selected-bg: #4b5263;
+    --border-color: #2c2d32;
+    --accent-color: #8845e5;
+    --selected-bg: #2c2d32;
     --selected-border: var(--accent-color);
-    --hover-bg: #3e4451;
-    --icon-color: #98c379;
+    --hover-bg: #2c2d32;
+    --icon-color: #8845e5;
 }
 
 * {
@@ -40,7 +42,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     color: var(--text-color);
     background: var(--titlebar-color);
     overflow: hidden;
@@ -72,8 +74,8 @@ html {
     display: flex;
     width: 100%;
     height: 100%;
-    gap: 5px;
-    padding: 5px;
+    gap: 10px;
+    padding: 10px;
 }
 
 .main-content {
@@ -82,6 +84,7 @@ html {
     flex-direction: column;
     background-color: var(--bg-card);
     overflow: hidden; /* Evita scroll duplo */
+    border-radius: 8px;
 }
 
 /* Cabeçalhos e Ícones */
@@ -118,10 +121,21 @@ h2 .material-icons {
     background: none;
     border-radius: 4px;
     cursor: grab;
-    width: 50%;
+    width: calc(50% - 10px);
     transition: background-color 0.2s ease;
     border: 1px solid var(--border-color);
 }
+#tag-list li.separator {
+    padding: 4px 12px;
+    margin-bottom: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 
 #tag-list li:hover {
     background-color: var(--hover-bg);
@@ -275,9 +289,11 @@ h2 .material-icons {
 .tab-controls {
     display: flex;
     background-color: var(--bg-color-light);
-    padding: 10px;
+    padding: 10px 15px;
     align-items: center;
     justify-content: flex-end;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 /* Estilo para o switch de código */
@@ -285,6 +301,9 @@ h2 .material-icons {
     display: flex;
     align-items: center;
     gap: 10px;
+    background-color: var(--bg-color);
+    padding: 5px 10px;
+    border-radius: 6px;
 }
 
 .code-switch-label {
@@ -387,7 +406,9 @@ input:checked + .slider:before {
     width: 100%;
     height: 100%;
     border: none;
-    background-color: #fff; /* Fundo branco para o preview em si */
+    background: url('../images/chess-texture.png');
+    background: #00000055;
+    border-radius: 0 0 8px 8px; /* Cantos arredondados na parte inferior */
 }
 
 /* Área de Código */
@@ -395,6 +416,159 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+/* Estilos para o painel de configurações */
+.settings-group {
+    margin-bottom: 20px;
+    background-color: var(--bg-color-light);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.settings-group h3 {
+    font-size: 14px;
+    color: var(--text-color-light);
+    margin-bottom: 12px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.setting-item {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.setting-item label {
+    font-size: 12px;
+    color: var(--text-color-light);
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.image-upload-btn {
+    background-color: var(--bg-color-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-upload-btn:hover {
+    background-color: var(--hover-bg);
+}
+
+.style-select {
+    background-color: var(--bg-color-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-picker input[type="color"] {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+}
+
+.color-value {
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+.size-control {
+    display: flex;
+    gap: 10px;
+}
+
+.size-input {
+    background-color: var(--bg-color-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 6px;
+    width: 70px;
+    text-align: center;
+}
+
+.alignment-control {
+    display: flex;
+    gap: 5px;
+}
+
+.align-btn {
+    background-color: var(--bg-color-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.align-btn:hover {
+    background-color: var(--hover-bg);
+}
+
+.margin-control {
+    width: 100%;
+}
+
+.margin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px;
+    width: 100%;
+    height: 120px;
+    position: relative;
+}
+
+.margin-input {
+    background-color: var(--bg-color-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 6px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+
+.margin-inner {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color-lighter);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 12px;
 }
 
 #code-editor {

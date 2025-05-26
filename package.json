@@ -46,7 +46,7 @@
     ],
     "win": {
       "target": ["nsis"],
-      "icon": "assets/icons/icon.ico"
+      "icon": "src/renderer/images/system/win.ico"
     },
     "mac": {
       "target": ["dmg"],
